@@ -29,7 +29,7 @@ export const addStudent = async (req, res) => {
                 message : "Seat is already allocated to " + student.studentName
             })
         }else{
-            if(student.batchTiming===batchTiming){
+            if(student?.batchTiming===batchTiming){
                 return res.status(400).json({
                     message : "Seat is already allocated in this shift to " + student.studentName
                 })
