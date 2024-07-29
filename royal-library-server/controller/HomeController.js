@@ -1,4 +1,5 @@
 import Enrollment from "../models/Enrollment.js";
+import Fees from "../models/Fees.js";
 export const addStudent = async (req, res) => {
     console.log("ADD STUDENT");
     try {
@@ -171,5 +172,24 @@ export const getSeatInfo = async (req,res)=>{
             message : "Internal Server Error",
             error
         })
+    }
+}
+export const submitFees = async (req,res)=>{
+    console.log("/submit-fees",req.body);
+    try {
+        const {enrollmentNo,seatNo,batchTiming,amount,dop,month,year} = req.body
+        if(!(enrollmentNo&&seatNo&&batchTiming&&amount&&dop&&month&&year)){
+            return res.status(400).json({
+                message : "Information MIssing. Check Once please"
+            })
+        }
+        let fees = await Fees.findOne({month,year,enrollmentNo})
+        fees = await Fees.create({enrollmentNo,seatNo,batchTiming,amount,dop,month,year})
+         return res.status(200).json({
+            message : "Fees submitted successfully"
+         })
+
+    } catch (error) {
+        
     }
 }
